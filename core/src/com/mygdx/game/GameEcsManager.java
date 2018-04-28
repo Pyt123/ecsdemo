@@ -10,9 +10,11 @@ import ecs.EcsManager;
 
 public class GameEcsManager extends EcsManager
 {
-    public GameEcsManager(ApplicationAdapter context, InputProcessor inputProcessor, Batch batch, Camera camera, Viewport viewport)
+    private InputProcessor inputProcessor;
+
+    public GameEcsManager(ApplicationAdapter context, Batch batch, Camera camera, Viewport viewport)
     {
-        super(context, inputProcessor, batch, camera, viewport);
+        super(context, batch, camera, viewport);
     }
 
     @Override
@@ -23,6 +25,9 @@ public class GameEcsManager extends EcsManager
         FollowingCamera fCamera =  new FollowingCamera(camera, viewport, player, new Vector2(800, 0));
         Background background = new Background(-140, 0, fCamera);
 
+        inputProcessor = new InputProcessor(player);
+        Gdx.input.setInputProcessor(inputProcessor);
+
         addAndStart(background);
         addAndStart(player);
         addAndStart(fCamera);
@@ -30,5 +35,6 @@ public class GameEcsManager extends EcsManager
 
     protected void handleInput()
     {
+        inputProcessor.handleInput();
     }
 }

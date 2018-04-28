@@ -32,10 +32,8 @@ public class Game extends ApplicationAdapter
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        InputProcessor inputProcessor = new InputProcessor();
 
-        Gdx.input.setInputProcessor(inputProcessor);
-        ecsManager = new GameEcsManager(this, inputProcessor, batch, camera, viewport);
+        ecsManager = new GameEcsManager(this, batch, camera, viewport);
         ecsManager.start();
     }
 

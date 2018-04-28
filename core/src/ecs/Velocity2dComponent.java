@@ -7,18 +7,18 @@ public class Velocity2dComponent extends Component implements Updatable
     private final float VELOCITY_MARGIN = 0.001f;
     private Vector2 velocity = new Vector2();
 
-    public Velocity2dComponent(int xVel, int yVel)
+    public Velocity2dComponent(float xVel, float yVel)
     {
         initialize(xVel, yVel);
     }
 
-    public Velocity2dComponent initialize(int xVel, int yVel)
+    public Velocity2dComponent initialize(float xVel, float yVel)
     {
         setVelocity(xVel, yVel);
         return this;
     }
 
-    public void setVelocity(int xVel, int yVel)
+    public void setVelocity(float xVel, float yVel)
     {
         velocity.set(xVel, yVel);
     }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class BoxCollider2dComponent extends Component implements Updatable
 {
     private Rectangle bounds;
-    SpriteComponent spriteComponent;
+    private SpriteComponent spriteComponent;
 
     public BoxCollider2dComponent(SpriteComponent spriteComponent)
     {
@@ -22,7 +22,6 @@ public class BoxCollider2dComponent extends Component implements Updatable
     @Override
     public void awake()
     {
-
     }
 
     @Override
@@ -32,5 +31,10 @@ public class BoxCollider2dComponent extends Component implements Updatable
         {
             bounds.setPosition(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y);
         }
+    }
+
+    public Rectangle getBounds()
+    {
+        return bounds;
     }
 }

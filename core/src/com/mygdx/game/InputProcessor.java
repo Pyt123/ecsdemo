@@ -2,11 +2,27 @@ package com.mygdx.game;
 
 class InputProcessor implements com.badlogic.gdx.InputProcessor
 {
-    public boolean wasTouched = false;
-    public int xPos;
-    public int yPos;
+    private boolean wasTouched = false;
+    private int xPos;
+    private int yPos;
 
-    public InputProcessor() { }
+    private Player player;
+
+    public InputProcessor(Player player)
+    {
+        this.player = player;
+    }
+
+    public boolean handleInput()
+    {
+        if(wasTouched)
+        {
+            player.jump();
+            wasTouched = false;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean keyDown(int keycode)

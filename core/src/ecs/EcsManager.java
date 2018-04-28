@@ -12,16 +12,14 @@ import java.util.List;
 public abstract class EcsManager
 {
     protected ApplicationAdapter context;
-    protected InputProcessor inputProcessor;
     protected Camera camera;
     protected Viewport viewport;
 
     private List<Entity> entities = new ArrayList<Entity>(10);
 
-    public EcsManager(ApplicationAdapter context, InputProcessor inputProcessor, Batch batch, Camera camera, Viewport viewport)
+    public EcsManager(ApplicationAdapter context, Batch batch, Camera camera, Viewport viewport)
     {
         this.context = context;
-        this.inputProcessor = inputProcessor;
         Render.setBatch(batch);
         this.camera = camera;
         this.viewport = viewport;
