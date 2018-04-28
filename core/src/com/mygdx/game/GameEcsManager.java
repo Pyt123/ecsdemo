@@ -18,27 +18,18 @@ public class GameEcsManager extends EcsManager
     @Override
     public void start()
     {
+        super.start();
         Background background = new Background(0, 0);
         Player player = new Player(0, 0);
         FollowingCamera fCamera =
                 new FollowingCamera(this.camera, viewport, player, new Vector2(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/5));
 
-        entities.add(background);
-        entities.add(player);
-        entities.add(fCamera);
-
-        player.start();
-        background.start();
-        fCamera.start();
+        addAndStart(background);
+        addAndStart(player);
+        addAndStart(fCamera);
     }
 
     protected void handleInput()
     {
-        InputProcessor inputProcessor = (InputProcessor)this.inputProcessor;
-        if(inputProcessor.wasTouched)
-        {
-            inputProcessor.wasTouched = false;
-            entities.get(1).getTransform().setPosition(inputProcessor.xPos, inputProcessor.yPos);
-        }
     }
 }

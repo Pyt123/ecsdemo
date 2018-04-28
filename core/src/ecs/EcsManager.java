@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.CameraEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ public abstract class EcsManager
     protected Camera camera;
     protected Viewport viewport;
 
-    protected List<Entity> entities = new ArrayList<Entity>(10);
+    private List<Entity> entities = new ArrayList<Entity>(10);
 
     public EcsManager(ApplicationAdapter context, InputProcessor inputProcessor, Batch batch, Camera camera, Viewport viewport)
     {
@@ -28,7 +27,16 @@ public abstract class EcsManager
         this.viewport = viewport;
     }
 
-    public abstract void start();
+    public final void addAndStart(Entity entity)
+    {
+        entities.add(entity);
+        entity.start();
+    }
+
+    public void start()
+    {
+        Scene.startScene(entities, this);
+    }
 
     public void nextFrame()
     {

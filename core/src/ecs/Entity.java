@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Entity
+public class Entity
 {
     private Map<Class, Component> components;
     protected List<Updatable> updatableComponents = new ArrayList<Updatable>();
@@ -28,7 +28,7 @@ public abstract class Entity
         return components.get(theClass);
     }
 
-    protected final void attachComponent(Component component)
+    public final void attachComponent(Component component)
     {
         components.put(component.getClass(), component);
         if(component instanceof Updatable)

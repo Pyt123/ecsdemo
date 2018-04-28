@@ -11,9 +11,9 @@ public abstract class Component
         this.parent = parentEntity;
     }
 
-    public abstract void awake();
+    abstract void awake();
 
-    public abstract void start();
+    abstract void start();
 
     public final void setEnabled(boolean isEnabled)
     {
