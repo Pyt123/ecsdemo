@@ -7,11 +7,15 @@ public class FollowingBehaviourComponent extends Component implements Updatable
     private Entity toFollow;
     private Vector2 followedPosition;
     private Vector2 offset;
+    private boolean followX;
+    private boolean followY;
 
-    public FollowingBehaviourComponent(Entity entityToFollow, Vector2 offset)
+    public FollowingBehaviourComponent(Entity entityToFollow, Vector2 offset, boolean inX, boolean inY)
     {
         setTarget(entityToFollow);
         setOffset(offset);
+        followX = inX;
+        followY = inY;
     }
 
     @Override
@@ -31,7 +35,21 @@ public class FollowingBehaviourComponent extends Component implements Updatable
     {
         if(parent.getTransform().isPosChanged())
         {
-            parent.transform.setPosition(followedPosition.x + offset.x, followedPosition.y + offset.y);
+            if(followX)
+            {
+                if(followY)
+                {
+                    parent.transform.setPosition(followedPosition.x + offset.x, followedPosition.y + offset.y);
+                }
+                else
+                {
+                    parent.transform.setPosition(followedPosition.x + offset.x, parent.getTransform().getPosition().y);
+                }
+            }
+            else if (followY)
+            {
+                parent.transform.setPosition(parent.getTransform().getPosition().x, followedPosition.y + offset.y);
+            }
         }
     }
 

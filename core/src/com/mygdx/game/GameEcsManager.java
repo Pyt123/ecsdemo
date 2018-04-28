@@ -19,11 +19,9 @@ public class GameEcsManager extends EcsManager
     public void start()
     {
         super.start();
-        Background background = new Background(-140, -140);
-        Player player = new Player(0, 0);
-        FollowingCamera fCamera =
-                new FollowingCamera(camera, viewport, player,
-                        new Vector2(600, 400));
+        Player player = new Player(0, 200);
+        FollowingCamera fCamera =  new FollowingCamera(camera, viewport, player, new Vector2(800, 0));
+        Background background = new Background(-140, 0, fCamera);
 
         addAndStart(background);
         addAndStart(player);

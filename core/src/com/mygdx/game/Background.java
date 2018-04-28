@@ -3,35 +3,48 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 
 import ecs.Entity;
-import ecs.Render;
 import ecs.Scene;
 import ecs.SpriteComponent;
 
 public class Background extends Entity
 {
-    private SpriteComponent spriteC1;
-    private float posX;
+    private SpriteComponent spriteC;
+    private Entity [] backgrounds = new Entity[2];
+    private int nextToChange = 0;
+    private CameraEntity cameraEntity;
 
-    public Background(float posX, float posY)
+    public Background(float posX, float posY, CameraEntity cameraEntity)
     {
         super(posX, posY);
+        this.cameraEntity = cameraEntity;
         Texture texture = new Texture("lava_background.png");
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        spriteC1 = new SpriteComponent(texture);
-        //SpriteComponent spriteC2 = new SpriteComponent(texture);
+        spriteC = new SpriteComponent(texture);
+        SpriteComponent spriteC2 = new SpriteComponent(texture);
 
-        //Entity bg1 = new Entity(posX, posY);
-        attachComponent(spriteC1);
-        //Entity bg2 = new Entity(posX + texture.getWidth(), posY);
-        //bg2.attachComponent(spriteC2);
-        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        backgrounds[0] = new Entity(posX, posY);
+        backgrounds[0].attachComponent(spriteC);
+        backgrounds[1] = new Entity(posX + texture.getWidth(), posY);
+        backgrounds[1].attachComponent(spriteC2);
 
-        //Scene.getEcsManager().addAndStart(bg1);
-        //Scene.getEcsManager().addAndStart(bg2);
+        Scene.getEcsManager().addAndStart(backgrounds[0]);
+        Scene.getEcsManager().addAndStart(backgrounds[1]);
     }
 
-    public void draw()
+    @Override
+    public void update()
     {
-        Render.getBatch().draw(spriteC1.getSprite(), posX, 0);
+        Entity bg = backgrounds[nextToChange];
+        float edgeCameraX =
+                cameraEntity.getTransform().getPosition().x - (cameraEntity.getCamera().viewportWidth/2);
+        float edgeBgX = bg.getTransform().getPosition().x + spriteC.getSprite().getWidth();
+        if(edgeBgX < edgeCameraX)
+        {
+            nextToChange = (nextToChange + 1) % backgrounds.length;
+            bg.getTransform().setPosition(bg.getTransform().getPosition().x + backgrounds.length * spriteC.getSprite().getWidth(),
+                    bg.getTransform().getPosition().y);
+        }
+
+        super.update();
     }
 }

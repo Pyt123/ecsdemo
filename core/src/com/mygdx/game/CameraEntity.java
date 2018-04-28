@@ -28,4 +28,9 @@ public abstract class CameraEntity extends Entity
 
         attachComponent(new CameraComponent(camera));
     }
+
+    public Camera getCamera()
+    {
+        return camera;
+    }
 }

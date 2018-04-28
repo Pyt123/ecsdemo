@@ -64,7 +64,7 @@ public class Entity
         }
     }
 
-    public final void update()
+    public void update()
     {
         for (int i=0; i < updatableComponents.size(); i++)
         {
@@ -72,7 +72,7 @@ public class Entity
         }
     }
 
-    public void draw()
+    public final void draw()
     {
         for (int i = 0; i < drawableComponents.size(); i++)
         {

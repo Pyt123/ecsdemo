@@ -13,6 +13,6 @@ public class FollowingCamera extends CameraEntity
     public FollowingCamera(Camera camera, Viewport viewport, Entity toFollow, Vector2 offset)
     {
         super(camera, viewport);
-        attachComponent(new FollowingBehaviourComponent(toFollow, offset));
+        attachComponent(new FollowingBehaviourComponent(toFollow, offset, true, false));
     }
 }
