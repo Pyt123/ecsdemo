@@ -21,7 +21,13 @@ public class Entity
         transform.setPosition(xPos, yPos);
     }
 
-    public void dispose(){ }
+    public void dispose()
+    {
+        for(int i=0; i < drawableComponents.size(); i++)
+        {
+            drawableComponents.get(i).dispose();
+        }
+    }
 
     public final Component getComponent(Class theClass)
     {
@@ -66,7 +72,7 @@ public class Entity
         }
     }
 
-    public final void draw()
+    public void draw()
     {
         for (int i = 0; i < drawableComponents.size(); i++)
         {

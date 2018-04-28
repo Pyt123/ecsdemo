@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ecs.EcsManager;
@@ -16,8 +17,6 @@ public class Game extends ApplicationAdapter
 {
     private Camera camera;
     private Viewport viewport;
-
-    private final float targetFrameTime = 30;    // miliseconds
     //////////////////////////////////////////////////
     // Batch
     private SpriteBatch batch;
@@ -31,7 +30,7 @@ public class Game extends ApplicationAdapter
     {
         batch = new SpriteBatch();
 
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         InputProcessor inputProcessor = new InputProcessor();
 
@@ -64,7 +63,7 @@ public class Game extends ApplicationAdapter
 	@Override
 	public void dispose ()
     {
-		batch.dispose();
-		ecsManager.dispose();
+		//batch.dispose();
+		//ecsManager.dispose();
 	}
 }

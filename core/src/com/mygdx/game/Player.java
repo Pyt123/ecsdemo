@@ -12,7 +12,7 @@ public class Player extends Entity
     public Player(float posX, float posY)
     {
         super(posX, posY);
-        int velX = 10, velY = 0;
+        int velX = 100, velY = 0;
 
         SpriteComponent spriteC = new SpriteComponent(new Texture("running_pose.png"));
         attachComponent(spriteC);

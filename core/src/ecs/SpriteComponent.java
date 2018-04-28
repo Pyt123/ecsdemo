@@ -27,8 +27,7 @@ public class SpriteComponent extends Component implements Updatable, Drawable
     @Override
     public void awake()
     {
-        sprite = new Sprite(texture, (int)(parent.getTransform().getPosition().x), (int)(parent.getTransform().getPosition().y),
-                width, height);
+        sprite = new Sprite(texture, 0,0, width, height);
     }
 
     @Override
@@ -53,5 +52,11 @@ public class SpriteComponent extends Component implements Updatable, Drawable
     public void draw()
     {
         sprite.draw(Render.getBatch());
+    }
+
+    @Override
+    public void dispose()
+    {
+        texture.dispose();
     }
 }
