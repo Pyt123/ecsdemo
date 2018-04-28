@@ -2,27 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import ecs.Drawable;
 import ecs.Entity;
-import ecs.NecessaryComponentNotAttachedException;
-import ecs.Render;
 import ecs.SpriteComponent;
 
-public class Background extends Entity implements Drawable
+public class Background extends Entity
 {
-    private SpriteComponent spriteComponent;
-
-    public Background() throws NecessaryComponentNotAttachedException
+    public Background(float posX, float posY)
     {
-        int posX = -100, posY = -100;
-        Texture texture = new Texture("lava_background.png");
-        spriteComponent = new SpriteComponent(texture, posX, posY, texture.getWidth(), texture.getHeight());
-        attachComponent(SpriteComponent.class, spriteComponent);
+        super(posX, posY);
+        SpriteComponent spriteC1 = new SpriteComponent(new Texture("lava_background.png"));
+        attachComponent(spriteC1);
     }
-
-    /*@Override
-    public void draw()
-    {
-        spriteComponent.draw(Render.getBatch());
-    }*/
 }

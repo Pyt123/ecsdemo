@@ -2,13 +2,16 @@ package com.mygdx.game;
 
 class InputProcessor implements com.badlogic.gdx.InputProcessor
 {
-    public InputProcessor()
-    {
-    }
+    public boolean wasTouched = false;
+    public int xPos;
+    public int yPos;
+
+    public InputProcessor() { }
 
     @Override
     public boolean keyDown(int keycode)
     {
+
         return false;
     }
 
@@ -27,7 +30,10 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        return false;
+        wasTouched = true;
+        xPos = screenX;
+        yPos = screenY;
+        return true;
     }
 
     @Override

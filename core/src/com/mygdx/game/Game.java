@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ecs.EcsManager;
@@ -14,10 +14,6 @@ import ecs.Time;
 
 public class Game extends ApplicationAdapter
 {
-    // Camera and view
-    private final int maxCameraViewHeight = 100;
-    private float aspectRatioXY;
-    private int maxCameraViewWidth;
     private Camera camera;
     private Viewport viewport;
 
@@ -33,9 +29,14 @@ public class Game extends ApplicationAdapter
 	@Override
 	public void create ()
     {
-        setupCameraStuff();
-        setupInputAndManager();
+        batch = new SpriteBatch();
 
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        InputProcessor inputProcessor = new InputProcessor();
+
+        Gdx.input.setInputProcessor(inputProcessor);
+        ecsManager = new GameEcsManager(this, inputProcessor, batch, camera, viewport);
         ecsManager.start();
     }
 
@@ -50,11 +51,12 @@ public class Game extends ApplicationAdapter
     {
         Time.setDeltaTimes(Gdx.graphics.getDeltaTime());
 
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
+        batch.setProjectionMatrix(camera.combined);
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		batch.setProjectionMatrix(camera.combined);
 		ecsManager.nextFrame();
         batch.end();
 	}
@@ -65,22 +67,4 @@ public class Game extends ApplicationAdapter
 		batch.dispose();
 		ecsManager.dispose();
 	}
-
-	private void setupCameraStuff()
-    {
-        batch = new SpriteBatch();
-        aspectRatioXY = (float)(Gdx.graphics.getWidth()) / Gdx.graphics.getHeight();
-        maxCameraViewWidth = maxCameraViewHeight * maxCameraViewWidth;
-        camera = new OrthographicCamera(maxCameraViewWidth, maxCameraViewHeight);
-        camera.translate(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
-        viewport = new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        Gdx.gl.glClearColor(1, 1, 0, 1);
-    }
-
-    private void setupInputAndManager()
-    {
-        InputProcessor inputProcessor = new InputProcessor();
-        Gdx.input.setInputProcessor(inputProcessor);
-        ecsManager = new GameEcsManager(this, inputProcessor, batch);
-    }
 }

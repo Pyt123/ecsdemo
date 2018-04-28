@@ -2,23 +2,30 @@ package ecs;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.CameraEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class EcsManager
 {
-    private ApplicationAdapter context;
-    private InputProcessor inputProcessor;
+    protected ApplicationAdapter context;
+    protected InputProcessor inputProcessor;
+    protected Camera camera;
+    protected Viewport viewport;
 
     protected List<Entity> entities = new ArrayList<Entity>(10);
 
-    public EcsManager(ApplicationAdapter context, InputProcessor inputProcessor, Batch batch)
+    public EcsManager(ApplicationAdapter context, InputProcessor inputProcessor, Batch batch, Camera camera, Viewport viewport)
     {
         this.context = context;
         this.inputProcessor = inputProcessor;
         Render.setBatch(batch);
+        this.camera = camera;
+        this.viewport = viewport;
     }
 
     public abstract void start();
@@ -38,9 +45,7 @@ public abstract class EcsManager
         }
     }
 
-    private void handleInput()
-    {
-    }
+    protected abstract void handleInput();
 
     private void update()
     {

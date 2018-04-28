@@ -5,32 +5,32 @@ import com.badlogic.gdx.math.Rectangle;
 public class BoxCollider2dComponent extends Component implements Updatable
 {
     private Rectangle bounds;
-    Position2dComponent position2dComponent;
+    SpriteComponent spriteComponent;
 
-    public BoxCollider2dComponent(int startX, int startY, int width, int height)
+    public BoxCollider2dComponent(SpriteComponent spriteComponent)
     {
-        initialize(startX, startY, width, height);
-    }
-
-    public BoxCollider2dComponent initialize(int startX, int startY, int width, int height)
-    {
-        bounds = new Rectangle(startX, startY, width, height);
-        return this;
+        this.spriteComponent = spriteComponent;
     }
 
     @Override
-    protected void attachToEntity(Entity parentEntity)
+    public void start()
     {
-        super.attachToEntity(parentEntity);
-        position2dComponent = (Position2dComponent)parentEntity.getComponent(Position2dComponent.class);
+        bounds = new Rectangle(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y,
+                spriteComponent.getSprite().getWidth(), spriteComponent.getSprite().getHeight());
+    }
+
+    @Override
+    public void awake()
+    {
+
     }
 
     @Override
     public void update()
     {
-        if(position2dComponent.isChanged())
+        if(parent.getTransform().isPosChanged())
         {
-            bounds.setPosition(position2dComponent.getPosition().x, position2dComponent.getPosition().y);
+            bounds.setPosition(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y);
         }
     }
 }

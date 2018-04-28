@@ -4,19 +4,23 @@ public abstract class Component
 {
     protected boolean isEnabled = true;
     protected boolean toDestroy = false;
-    protected Entity parentEntity;
+    protected Entity parent;
 
-    protected void attachToEntity(Entity parentEntity)
+    protected final void attachToEntity(Entity parentEntity)
     {
-        this.parentEntity = parentEntity;
+        this.parent = parentEntity;
     }
 
-    public void setEnabled(boolean isEnabled)
+    public abstract void awake();
+
+    public abstract void start();
+
+    public final void setEnabled(boolean isEnabled)
     {
         this.isEnabled = isEnabled;
     }
 
-    public void destroy()
+    public final void destroy()
     {
         toDestroy = true;
     }

@@ -1,41 +1,26 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 import ecs.BoxCollider2dComponent;
-import ecs.Drawable;
 import ecs.Entity;
-import ecs.Move2dComponent;
-import ecs.NecessaryComponentNotAttachedException;
-import ecs.Position2dComponent;
-import ecs.Render;
+import ecs.Velocity2dComponent;
 import ecs.SpriteComponent;
-import ecs.Updatable;
 
-public class Player extends Entity implements Updatable, Drawable
+public class Player extends Entity
 {
-    public Player()
+    public Player(float posX, float posY)
     {
-    }
+        super(posX, posY);
+        int velX = 10, velY = 0;
 
-    public void start() throws NecessaryComponentNotAttachedException
-    {
-        int posX = 0, posY = 0;
-        int velX = 5, velY = 3;
+        SpriteComponent spriteC = new SpriteComponent(new Texture("running_pose.png"));
+        attachComponent(spriteC);
 
-        Position2dComponent positionC = new Position2dComponent(posX, posY);
-        attachComponent(Position2dComponent.class, new Position2dComponent(posX, posY));
+        BoxCollider2dComponent boxColliderC = new BoxCollider2dComponent(spriteC);
+        attachComponent(boxColliderC);
 
-        Texture texture = new Texture("player.png");
-        SpriteComponent sc = new SpriteComponent(texture, posX, posY);
-        attachComponent(SpriteComponent.class, sc);
-
-        BoxCollider2dComponent boxColliderC = new BoxCollider2dComponent(0, 0,
-                sc.getSprite().getRegionX(), sc.getSprite().getRegionY());
-        attachComponent(BoxCollider2dComponent.class, boxColliderC);
-
-        Move2dComponent moveC = new Move2dComponent(velX, velY);
-        attachComponent(Move2dComponent.class, moveC);
+        Velocity2dComponent moveC = new Velocity2dComponent(velX, velY);
+        attachComponent(moveC);
     }
 }

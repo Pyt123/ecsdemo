@@ -2,20 +2,39 @@ package ecs;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Scaling;
 
 public class SpriteComponent extends Component implements Updatable, Drawable
 {
     private Sprite sprite;
-    Position2dComponent position2dComponent;
+    private Texture texture;
+    private int width;
+    private int height;
 
-    public SpriteComponent(Texture texture, int startX, int startY)
+    public SpriteComponent(Texture texture)
     {
-        sprite = new Sprite(texture, startX, startY, texture.getWidth(), texture.getHeight());
+        this.texture = texture;
+        width = texture.getWidth();
+        height = texture.getHeight();
     }
 
-    public SpriteComponent(Texture texture, int startX, int startY, int width, int height)
+    public SpriteComponent(Texture texture, int width, int height)
     {
-        sprite = new Sprite(texture, startX, startY, width, height);
+        this.texture = texture;
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public void awake()
+    {
+        sprite = new Sprite(texture, (int)(parent.getTransform().getPosition().x), (int)(parent.getTransform().getPosition().y),
+                width, height);
+    }
+
+    @Override
+    public void start()
+    {
     }
 
     public Sprite getSprite()
@@ -23,18 +42,11 @@ public class SpriteComponent extends Component implements Updatable, Drawable
         return sprite;
     }
 
-    @Override
-    protected void attachToEntity(Entity parentEntity)
-    {
-        super.attachToEntity(parentEntity);
-        position2dComponent = (Position2dComponent)parentEntity.getComponent(Position2dComponent.class);
-    }
-
     public void update()
     {
-        if(position2dComponent != null && position2dComponent.isChanged())
+        if(parent.getTransform().isPosChanged())
         {
-            sprite.setPosition(position2dComponent.getPosition().x, position2dComponent.getPosition().y);
+            sprite.setPosition(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y);
         }
     }
 

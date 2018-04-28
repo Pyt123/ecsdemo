@@ -1,7 +1,5 @@
 package ecs;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,24 +11,26 @@ public abstract class Entity
     protected List<Updatable> updatableComponents = new ArrayList<Updatable>();
     protected List<Drawable> drawableComponents = new ArrayList<Drawable>();
 
-    public Entity()
+    protected String name;
+    protected Transform transform = new Transform();
+
+
+    public Entity(float xPos, float yPos)
     {
         components = new HashMap<Class, Component>();
+        transform.setPosition(xPos, yPos);
     }
-
-    public void start() throws NecessaryComponentNotAttachedException
-    { }
 
     public void dispose(){ }
 
-    public Component getComponent(Class theClass)
+    public final Component getComponent(Class theClass)
     {
         return components.get(theClass);
     }
 
-    protected void attachComponent(Class theClass, Component component) throws NecessaryComponentNotAttachedException
+    protected final void attachComponent(Component component)
     {
-        components.put(theClass, component);
+        components.put(component.getClass(), component);
         if(component instanceof Updatable)
         {
             updatableComponents.add((Updatable)component);
@@ -40,6 +40,22 @@ public abstract class Entity
             drawableComponents.add((Drawable) component);
         }
         component.attachToEntity(this);
+    }
+
+    public final void start()
+    {
+        Object [] comps = (components.values().toArray());
+        Component component;
+        for(int  i=0; i < comps.length; i++)
+        {
+            component = (Component)comps[i];
+            component.awake();
+        }
+        for(int  i=0; i< comps.length; i++)
+        {
+            component = (Component)comps[i];
+            component.start();
+        }
     }
 
     public final void update()
@@ -56,5 +72,10 @@ public abstract class Entity
         {
             drawableComponents.get(i).draw();
         }
+    }
+
+    public Transform getTransform()
+    {
+        return transform;
     }
 }
