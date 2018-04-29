@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ecs.Animation2dComponent;
 import ecs.BoxCollider2dComponent;
+import ecs.EcsManager;
 import ecs.Entity;
 import ecs.PhysicsComponent;
+import ecs.RestartComponent;
+import ecs.Scene;
 import ecs.Velocity2dComponent;
-import ecs.SpriteComponent;
 
 public class Player extends Entity
 {
@@ -37,6 +39,16 @@ public class Player extends Entity
     public void jump()
     {
         physicsComponent.jump();
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+        if(transform.getPosition().y + colliderComponent.getBounds().getHeight() < 0)
+        {
+            Scene.getEcsManager().restart();
+        }
     }
 
     public void die()

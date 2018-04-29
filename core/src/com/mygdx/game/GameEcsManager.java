@@ -40,6 +40,7 @@ public class GameEcsManager extends EcsManager
         inputProcessor.handleInput();
     }
 
+    @Override
     public void restart()
     {
         dispose();

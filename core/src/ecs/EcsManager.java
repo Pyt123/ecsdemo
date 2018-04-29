@@ -15,7 +15,7 @@ public abstract class EcsManager
     protected Camera camera;
     protected Viewport viewport;
 
-    private List<Entity> entities = new ArrayList<Entity>(10);
+    private List<Entity> entities;
 
     public EcsManager(ApplicationAdapter context, Batch batch, Camera camera, Viewport viewport)
     {
@@ -33,14 +33,16 @@ public abstract class EcsManager
 
     public void start()
     {
+        this.entities = new ArrayList<Entity>(15);;
+        Time.resetFrameCounter();
         Scene.startScene(entities, this);
     }
 
     public void nextFrame()
     {
-        handleInput();
         if(Time.getFrameCount() > 0)
         {
+            handleInput();
             update();
         }
         draw();
@@ -71,4 +73,6 @@ public abstract class EcsManager
             entities.get(i).draw();
         }
     }
+
+    public abstract void restart();
 }

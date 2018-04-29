@@ -7,7 +7,7 @@ public class TimeScaleManipulator extends Entity
 {
     private final float START_SCALE = 0.01f;
     private final float REGULAR_SCALE = 1f;
-    private final float HOW_LONG_TO_REGULAR = 5f;
+    private final float HOW_LONG_TO_REGULAR = 3f;
     private final float AMOUNT_PER_SEC_TO_REGULAR = (REGULAR_SCALE - START_SCALE)/ HOW_LONG_TO_REGULAR; // unscaled secs, realtime
     private final float AMOUNT_PER_SEC_AFTER_REG = 0.01f;
 
