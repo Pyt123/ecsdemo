@@ -1,20 +1,23 @@
 package ecs;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 public class PhysicsComponent extends Component implements Updatable
 {
-    private final float TRESHHOLD = 0.1f;
+    private final float L_TRESHHOLD = 0.5f;
+    private final float B_TRESHHOLD = 10f;
     private final float JUMP_FORCE = 1500f;
 
     private Velocity2dComponent velocityC;
     private float timeInAir = 0f;
-    private float groundLevel;
-    private boolean wasGrounded;
-    private boolean isGrounded;
+    private boolean isGrounded = true;
+    private BoxCollider2dComponent collider;
 
-    public PhysicsComponent(Velocity2dComponent velocityC, float groundLevel)
+    public PhysicsComponent(Velocity2dComponent velocityC, BoxCollider2dComponent collider)
     {
         this.velocityC = velocityC;
-        this.groundLevel = groundLevel;
+        this.collider = collider;
     }
 
     @Override
@@ -30,32 +33,45 @@ public class PhysicsComponent extends Component implements Updatable
     @Override
     public void update()
     {
-        isGrounded = checkGrounded();
-        if(!isGrounded)
+        Rectangle collidedWith = collider.checkForCollisions();
+
+        if(collidedWith != null && velocityC.getVelocity().y < L_TRESHHOLD)
         {
-            applyGravity();
-            timeInAir += Time.getScaledDt();
-            wasGrounded = false;
+            Vector2 midPos = new Vector2(collider.getBounds().x + collider.getBounds().width/4,
+                    collider.getBounds().y + collider.getBounds().height/2);
+            float secX = midPos.x + collider.getBounds().width/2;
+            float upYcollidedWith = collidedWith.y + collidedWith.height;
+            if(secX > collidedWith.x && midPos.x < collidedWith.x + collidedWith.width &&
+                    midPos.y > upYcollidedWith)
+            {
+                parent.getTransform().setPosition(parent.getTransform().getPosition().x, upYcollidedWith-L_TRESHHOLD);
+                isGrounded = true;
+            }
+            else
+            {
+                isGrounded = false;
+            }
         }
         else
         {
-            if(!wasGrounded)
-            {
-                velocityC.getVelocity().y = 0f;
-                wasGrounded = true;
-                timeInAir = 0f;
-            }
+            isGrounded = false;
         }
+
+        handleGravitation();
     }
 
-    private boolean checkGrounded()
+    private void handleGravitation()
     {
-        return parent.getTransform().getPosition().y <= groundLevel + TRESHHOLD;
-    }
-
-    private void applyGravity()
-    {
-        velocityC.getVelocity().y -= Physics.getGravityY() * timeInAir * Time.getScaledDt();
+        if(isGrounded)
+        {
+            velocityC.getVelocity().y = 0f;
+            timeInAir = 0f;
+        }
+        else
+        {
+            velocityC.getVelocity().y -= Physics.getGravityY() * timeInAir * Time.getScaledDt();
+            timeInAir += Time.getScaledDt();
+        }
     }
 
     public void jump()

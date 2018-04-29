@@ -47,7 +47,7 @@ public class Game extends ApplicationAdapter
 	public void render ()
     {
         Time.setDeltaTimes(Gdx.graphics.getDeltaTime());
-
+        Time.increaseFrameCounter();
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
@@ -56,7 +56,7 @@ public class Game extends ApplicationAdapter
 		batch.begin();
 		ecsManager.nextFrame();
         batch.end();
-	}
+    }
 	
 	@Override
 	public void dispose ()

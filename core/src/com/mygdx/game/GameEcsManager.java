@@ -25,16 +25,24 @@ public class GameEcsManager extends EcsManager
         FollowingCamera fCamera =  new FollowingCamera(camera, viewport, player, new Vector2(800, 0));
         Background background = new Background(-140, 0, fCamera);
 
-        inputProcessor = new InputProcessor(player);
+        inputProcessor = new InputProcessor(player, this);
         Gdx.input.setInputProcessor(inputProcessor);
 
         addAndStart(background);
+        addAndStart(new PlatformGenerator(200, 0, player, fCamera));
         addAndStart(player);
         addAndStart(fCamera);
+        addAndStart(new TimeScaleManipulator(0, 0));
     }
 
     protected void handleInput()
     {
         inputProcessor.handleInput();
+    }
+
+    public void restart()
+    {
+        dispose();
+        start();
     }
 }

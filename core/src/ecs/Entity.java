@@ -21,7 +21,7 @@ public class Entity
         transform.setPosition(xPos, yPos);
     }
 
-    public void dispose()
+    public final void dispose()
     {
         for(int i=0; i < drawableComponents.size(); i++)
         {
@@ -80,7 +80,7 @@ public class Entity
         }
     }
 
-    public Transform getTransform()
+    public final Transform getTransform()
     {
         return transform;
     }

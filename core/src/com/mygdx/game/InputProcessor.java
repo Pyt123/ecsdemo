@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Input;
+
 class InputProcessor implements com.badlogic.gdx.InputProcessor
 {
     private boolean wasTouched = false;
@@ -7,10 +9,12 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
     private int yPos;
 
     private Player player;
+    private GameEcsManager gameEcsManager;
 
-    public InputProcessor(Player player)
+    public InputProcessor(Player player, GameEcsManager gameEcsManager)
     {
         this.player = player;
+        this.gameEcsManager = gameEcsManager;
     }
 
     public boolean handleInput()
@@ -27,7 +31,11 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
     @Override
     public boolean keyDown(int keycode)
     {
-
+        if(Input.Keys.R == keycode)
+        {
+            gameEcsManager.restart();
+            return true;
+        }
         return false;
     }
 

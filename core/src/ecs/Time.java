@@ -5,6 +5,7 @@ public final class Time
     private static float timeScale = 1f;             // the time scale
     private static float deltaTime = 0f;             // time since last frame in seconds
     private static float scaledDeltaTime = 0f;       // time since last frame in seconds * timeScale
+    private static int frameCount = 0;
 
     public static float getTimeScale()
     {
@@ -30,6 +31,16 @@ public final class Time
     {
         Time.deltaTime = deltaTime;
         Time.scaledDeltaTime = deltaTime * timeScale;
+    }
+
+    public static void increaseFrameCounter()
+    {
+        frameCount++;
+    }
+
+    public static int getFrameCount()
+    {
+        return frameCount;
     }
 
     private Time(){ }

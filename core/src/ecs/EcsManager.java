@@ -39,7 +39,10 @@ public abstract class EcsManager
     public void nextFrame()
     {
         handleInput();
-        update();
+        if(Time.getFrameCount() > 0)
+        {
+            update();
+        }
         draw();
     }
 

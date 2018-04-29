@@ -15,6 +15,7 @@ public class SpriteComponent extends Component implements Updatable, Drawable
         this.texture = texture;
         width = texture.getWidth();
         height = texture.getHeight();
+        sprite = new Sprite(texture, 0,0, width, height);
     }
 
     public SpriteComponent(Texture texture, int width, int height)
@@ -22,12 +23,12 @@ public class SpriteComponent extends Component implements Updatable, Drawable
         this.texture = texture;
         this.width = width;
         this.height = height;
+        sprite = new Sprite(texture, 0,0, width, height);
     }
 
     @Override
     public void awake()
     {
-        sprite = new Sprite(texture, 0,0, width, height);
     }
 
     @Override

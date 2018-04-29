@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Texture;
 
 import ecs.BoxCollider2dComponent;
@@ -11,10 +10,10 @@ import ecs.SpriteComponent;
 
 public class Player extends Entity
 {
-    private final float MIN_Y_POS = 100f;
-    private final float VELOCITY_X = 200f;
+    private final float VELOCITY_X = 300f;
     private Velocity2dComponent velocityC;
     private PhysicsComponent physicsComponent;
+    private BoxCollider2dComponent colliderComponent;
 
     public Player(float posX, float posY)
     {
@@ -23,13 +22,13 @@ public class Player extends Entity
         SpriteComponent spriteC = new SpriteComponent(new Texture("running_pose.png"));
         attachComponent(spriteC);
 
-        BoxCollider2dComponent boxColliderC = new BoxCollider2dComponent(spriteC);
-        attachComponent(boxColliderC);
+        colliderComponent = new BoxCollider2dComponent(spriteC);
+        attachComponent(colliderComponent);
 
         velocityC = new Velocity2dComponent(VELOCITY_X, 0);
         attachComponent(velocityC);
 
-        physicsComponent = new PhysicsComponent(velocityC, MIN_Y_POS);
+        physicsComponent = new PhysicsComponent(velocityC, colliderComponent);
         attachComponent(physicsComponent);
     }
 
@@ -43,13 +42,8 @@ public class Player extends Entity
 
     }
 
-    @Override
-    public void update()
+    public BoxCollider2dComponent getColliderComponent()
     {
-        super.update();
-        if(transform.getPosition().y < MIN_Y_POS)
-        {
-            transform.getPosition().y = MIN_Y_POS;
-        }
+        return colliderComponent;
     }
 }
