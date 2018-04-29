@@ -37,9 +37,9 @@ public class PhysicsComponent extends Component implements Updatable
 
         if(collidedWith != null && velocityC.getVelocity().y < L_TRESHHOLD)
         {
-            Vector2 midPos = new Vector2(collider.getBounds().x + collider.getBounds().width/4,
+            Vector2 midPos = new Vector2(collider.getBounds().x + collider.getBounds().width/5,
                     collider.getBounds().y + collider.getBounds().height/2);
-            float secX = midPos.x + collider.getBounds().width/2;
+            float secX = midPos.x + collider.getBounds().width/2.5f;
             float upYcollidedWith = collidedWith.y + collidedWith.height;
             if(secX > collidedWith.x && midPos.x < collidedWith.x + collidedWith.width &&
                     midPos.y > upYcollidedWith)

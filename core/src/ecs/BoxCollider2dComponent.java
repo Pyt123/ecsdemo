@@ -8,12 +8,17 @@ import java.util.List;
 public class BoxCollider2dComponent extends Component implements Updatable
 {
     private Rectangle bounds;
-    private SpriteComponent spriteComponent;
     private List<BoxCollider2dComponent> colliders = new ArrayList<BoxCollider2dComponent>();
 
-    public BoxCollider2dComponent(SpriteComponent spriteComponent)
+    public BoxCollider2dComponent(SpriteComponent spriteComponent, Entity parent)
     {
-        this.spriteComponent = spriteComponent;
+        bounds = new Rectangle(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y,
+                spriteComponent.getSprite().getWidth(), spriteComponent.getSprite().getHeight());
+    }
+
+    public BoxCollider2dComponent(int width, int height, Entity parent)
+    {
+        bounds = new Rectangle(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y, width, height);
     }
 
     @Override
@@ -24,8 +29,6 @@ public class BoxCollider2dComponent extends Component implements Updatable
     @Override
     public void start()
     {
-        bounds = new Rectangle(parent.getTransform().getPosition().x, parent.getTransform().getPosition().y,
-                spriteComponent.getSprite().getWidth(), spriteComponent.getSprite().getHeight());
     }
 
     @Override

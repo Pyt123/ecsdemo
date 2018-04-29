@@ -8,21 +8,25 @@ import ecs.SpriteComponent;
 
 public class Platform extends Entity
 {
-    private float width;
+    private SpriteComponent spriteC;
 
-    public Platform(float xPos, float yPos, Player player)
+    public Platform(float xPos, float yPos, Texture texture, Player player)
     {
         super(xPos, yPos);
-        SpriteComponent spriteC = new SpriteComponent(new Texture("platform1.png"));
+        spriteC = new SpriteComponent(texture);
         attachComponent(spriteC);
-        BoxCollider2dComponent colliderC = new BoxCollider2dComponent(spriteC);
+        BoxCollider2dComponent colliderC = new BoxCollider2dComponent(spriteC, this);
         attachComponent(colliderC);
         player.getColliderComponent().addColliderWhichCanCollideWith(colliderC);
-        width = spriteC.getSprite().getWidth();
     }
 
     public float getWidth()
     {
-        return width;
+        return spriteC.getSprite().getWidth();
+    }
+
+    public void changeTexture(Texture texture, boolean leaveSize)
+    {
+        spriteC.changeTexture(texture, leaveSize);
     }
 }

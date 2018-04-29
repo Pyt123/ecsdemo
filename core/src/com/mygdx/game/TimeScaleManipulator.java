@@ -5,10 +5,11 @@ import ecs.Time;
 
 public class TimeScaleManipulator extends Entity
 {
-    private final float MAX_SCALE = 1f;
     private final float START_SCALE = 0.01f;
-    private final float HOW_LONG_TO_MAX = 5f;
-    private final float AMOUNT_PER_SEC = (MAX_SCALE - START_SCALE)/HOW_LONG_TO_MAX;     // unscaled secs, realtime
+    private final float REGULAR_SCALE = 1f;
+    private final float HOW_LONG_TO_REGULAR = 5f;
+    private final float AMOUNT_PER_SEC_TO_REGULAR = (REGULAR_SCALE - START_SCALE)/ HOW_LONG_TO_REGULAR; // unscaled secs, realtime
+    private final float AMOUNT_PER_SEC_AFTER_REG = 0.01f;
 
     public TimeScaleManipulator(float xPos, float yPos)
     {
@@ -20,10 +21,14 @@ public class TimeScaleManipulator extends Entity
     public void update()
     {
         super.update();
-        if(Time.getTimeScale() < MAX_SCALE)
+        if(Time.getTimeScale() >= REGULAR_SCALE)
         {
-            float ts = Time.getTimeScale() + AMOUNT_PER_SEC * Time.getDt();
-            Time.setTimeScale(ts < MAX_SCALE ? ts : MAX_SCALE);
+            Time.setTimeScale(Time.getTimeScale() + AMOUNT_PER_SEC_AFTER_REG * Time.getDt());
+        }
+        else
+        {
+            float ts = Time.getTimeScale() + AMOUNT_PER_SEC_TO_REGULAR * Time.getDt();
+            Time.setTimeScale(ts < REGULAR_SCALE ? ts : REGULAR_SCALE);
         }
     }
 }

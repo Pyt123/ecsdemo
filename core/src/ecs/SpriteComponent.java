@@ -49,6 +49,18 @@ public class SpriteComponent extends Component implements Updatable, Drawable
         }
     }
 
+    public void changeTexture(Texture texture, boolean leaveSize)
+    {
+        if(leaveSize)
+        {
+            sprite = new Sprite(texture, 0,0, width, height);
+        }
+        else
+        {
+            sprite = new Sprite(texture, 0,0, texture.getWidth(), texture.getHeight());
+        }
+    }
+
     @Override
     public void draw()
     {
