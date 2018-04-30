@@ -6,7 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 public class PhysicsComponent extends Component implements Updatable
 {
     private final float L_TRESHHOLD = 1f;
-    private final float JUMP_FORCE = 1500f;
+
+    private final float VEL_Y_TO_VEL_X_NEEDED = 5;
 
     private Velocity2dComponent velocityC;
     private float timeInAir = 0f;
@@ -40,11 +41,14 @@ public class PhysicsComponent extends Component implements Updatable
                     collider.getBounds().y + collider.getBounds().height/5);
             float secX = midPos.x + collider.getBounds().width/2.5f;
             float upYcollidedWith = collidedWith.y + collidedWith.height;
-            if(secX > collidedWith.x && midPos.x < collidedWith.x + collidedWith.width &&
-                    midPos.y > upYcollidedWith)
+            if(secX > collidedWith.x && midPos.x < collidedWith.x + collidedWith.width)
             {
-                parent.getTransform().setPosition(parent.getTransform().getPosition().x, upYcollidedWith-L_TRESHHOLD);
-                isGrounded = true;
+                float velYtoVelX = Math.abs(velocityC.getVelocity().y) / Math.abs(velocityC.getVelocity().x);
+                if(midPos.y > upYcollidedWith || velYtoVelX > VEL_Y_TO_VEL_X_NEEDED)
+                {
+                    parent.getTransform().setPosition(parent.getTransform().getPosition().x, upYcollidedWith-L_TRESHHOLD);
+                    isGrounded = true;
+                }
             }
             else
             {
@@ -73,11 +77,13 @@ public class PhysicsComponent extends Component implements Updatable
         }
     }
 
-    public void jump()
+    public void addForce(Vector2 force)
     {
-        if(isGrounded)
-        {
-            velocityC.setVelocity(velocityC.getVelocity().x, velocityC.getVelocity().y + JUMP_FORCE);
-        }
+        velocityC.setVelocity(velocityC.getVelocity().x + force.x, velocityC.getVelocity().y + force.y);
+    }
+
+    public boolean getIsGrounded()
+    {
+        return isGrounded;
     }
 }

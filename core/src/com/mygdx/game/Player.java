@@ -1,19 +1,19 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 import ecs.Animation2dComponent;
 import ecs.BoxCollider2dComponent;
-import ecs.EcsManager;
 import ecs.Entity;
 import ecs.PhysicsComponent;
-import ecs.RestartComponent;
 import ecs.Scene;
 import ecs.Velocity2dComponent;
 
 public class Player extends Entity
 {
     private final float VELOCITY_X = 400f;
+    private final Vector2 JUMP_VECTOR = new Vector2(0f, 1500f);
     private Velocity2dComponent velocityC;
     private PhysicsComponent physicsComponent;
     private BoxCollider2dComponent colliderComponent;
@@ -38,7 +38,10 @@ public class Player extends Entity
 
     public void jump()
     {
-        physicsComponent.jump();
+        if(physicsComponent.getIsGrounded())
+        {
+            physicsComponent.addForce(JUMP_VECTOR);
+        }
     }
 
     @Override
