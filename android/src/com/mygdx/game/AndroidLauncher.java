@@ -12,7 +12,8 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class AndroidLauncher extends AndroidApplication implements SensorEventListener
 {
-    private Sensor sensor;
+    private Sensor lightSensor;
+    private Sensor jumpSensor;
     private SensorManager sensorManager;
     private Game game;
 
@@ -22,9 +23,11 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
 		super.onCreate(savedInstanceState);
 
 		sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        jumpSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-		sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+		sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, jumpSensor, SensorManager.SENSOR_DELAY_GAME);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		game = new Game();
@@ -34,14 +37,19 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        if(sensor.getType() == Sensor.TYPE_LIGHT)
+        InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
+        if(inputProcessor != null)
         {
-            InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
-            if(inputProcessor != null)
+            if(event.sensor.getType() == Sensor.TYPE_LIGHT)
             {
                 inputProcessor.setLightState(event.values[0]);
             }
+            else if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            {
+                inputProcessor.handleAccelometer(event.values[0], event.values[1], event.values[2]);
+            }
         }
+
     }
 
     @Override

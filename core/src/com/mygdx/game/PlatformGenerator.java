@@ -27,8 +27,7 @@ public class PlatformGenerator extends Entity
         super(xPos, yPos);
 
         this.camera = camera;
-        InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
-        platforms[0] = new Platform(xPos, yPos, DARK_TEXTURE, player, (inputProcessor.getLightState() == InputProcessor.LightState.DARK));
+        platforms[0] = new Platform(xPos, yPos, DARK_TEXTURE, player, true);
         Scene.getEcsManager().addAndStart(platforms[0]);
         for(int i = 1; i < platforms.length; i++)
         {
@@ -45,9 +44,8 @@ public class PlatformGenerator extends Entity
 
         Texture texture;
         boolean colliderActive;
-        InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
-        if(random.nextInt(2) == 0) { texture = DARK_TEXTURE; colliderActive = (inputProcessor.getLightState() == InputProcessor.LightState.DARK);}
-        else { texture = BRIGHT_TEXTURE; colliderActive = (inputProcessor.getLightState() == InputProcessor.LightState.BRIGHT);}
+        if(random.nextInt(2) == 0) { texture = DARK_TEXTURE; colliderActive = true;}
+        else { texture = BRIGHT_TEXTURE; colliderActive = false;}
 
         platforms[index] = new Platform(posX, getTransform().getPosition().y, texture, player, colliderActive);
         return platforms[index];

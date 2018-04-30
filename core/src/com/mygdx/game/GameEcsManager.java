@@ -40,7 +40,7 @@ public class GameEcsManager extends EcsManager
 
     protected void handleInput()
     {
-        inputProcessor.handleInput();
+
     }
 
     @Override

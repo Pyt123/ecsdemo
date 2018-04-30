@@ -12,13 +12,9 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
     private PlatformGenerator platformGenerator;
     private Background background;
 
-    private boolean wasTouched = false;
+    private final float LUX_CHANGE_VALUE = 100f;
+    private final float ACC_CHANGE_VALUE = 1f;
 
-    private final int MAX_LUX = 4000;
-    private int lux = 1000;
-
-    private boolean lightChanged = false;
-    private final float CHANGE_VALUE = 2000f;
     private LightState lightState = LightState.DARK;
 
     public InputProcessor(Player player, Background background)
@@ -32,11 +28,6 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
         this.platformGenerator = platformGenerator;
     }
 
-    public void handleInput()
-    {
-        handleTouch();
-    }
-
     @Override
     public boolean keyDown(int keycode)
     {
@@ -48,25 +39,21 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
         return false;
     }
 
-    private void handleTouch()
+    public void handleAccelometer(float x, float y, float z)
     {
-        if(wasTouched)
+        if(y > ACC_CHANGE_VALUE)
         {
             player.jump();
-            wasTouched = false;
-            //lux += MAX_LUX/2;
-            //setLightState((lux)%MAX_LUX);
         }
     }
 
     public void setLightState(float lux)
     {
-        if(lux >= CHANGE_VALUE)
+        if(lux >= LUX_CHANGE_VALUE)
         {
             if(this.lightState == LightState.DARK)
             {
                 this.lightState = LightState.BRIGHT;
-                lightChanged = true;
                 if(platformGenerator != null) { platformGenerator.changePlatformsState(); }
                 background.changeBrightness();
             }
@@ -76,7 +63,6 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
             if (this.lightState == LightState.BRIGHT)
             {
                 this.lightState = LightState.DARK;
-                lightChanged = true;
                 if(platformGenerator != null) { platformGenerator.changePlatformsState(); }
                 background.changeBrightness();
             }
@@ -107,8 +93,7 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        wasTouched = true;
-        return true;
+        return false;
     }
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
