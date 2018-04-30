@@ -1,7 +1,7 @@
 package ecs;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.mygdx.game.Game;
+import com.mygdx.game.Config;
 
 public class CameraComponent extends Component implements Updatable
 {
@@ -10,7 +10,7 @@ public class CameraComponent extends Component implements Updatable
     public CameraComponent(Camera camera)
     {
         this.camera = camera;
-        camera.translate(Game.VIRTUAL_WIDTH/2, Game.VIRTUAL_HEIGHT/2, 0);
+        camera.translate(Config.VIRTUAL_WIDTH/2, Config.VIRTUAL_HEIGHT/2, 0);
     }
 
     @Override

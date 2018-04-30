@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 
 import ecs.Scene;
 
-class InputProcessor implements com.badlogic.gdx.InputProcessor
+class GameplayInputProcessor implements com.badlogic.gdx.InputProcessor
 {
     public enum LightState { DARK, BRIGHT };
 
@@ -17,7 +17,7 @@ class InputProcessor implements com.badlogic.gdx.InputProcessor
 
     private LightState lightState = LightState.DARK;
 
-    public InputProcessor(Player player, Background background)
+    public GameplayInputProcessor(Player player, Background background)
     {
         this.player = player;
         this.background = background;

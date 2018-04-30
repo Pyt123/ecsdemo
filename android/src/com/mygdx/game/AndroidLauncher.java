@@ -13,31 +13,42 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 public class AndroidLauncher extends AndroidApplication implements SensorEventListener
 {
     private Sensor lightSensor;
-    private Sensor jumpSensor;
+    private Sensor accelerometerSensor;
     private SensorManager sensorManager;
-    private Game game;
+    private GameScreen gameScreen;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState)
     {
 		super.onCreate(savedInstanceState);
 
-		sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        jumpSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-		sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, jumpSensor, SensorManager.SENSOR_DELAY_GAME);
-
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		game = new Game();
-		initialize(game, config);
+		setupSensors();
+        startGame();
 	}
+
+
+	private void setupSensors()
+    {
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    private void startGame()
+    {
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        initialize(new ConfigScreen(), config);
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event)
     {
-        InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
+        GameplayInputProcessor inputProcessor;
+        try { inputProcessor = (GameplayInputProcessor)Gdx.input.getInputProcessor(); }
+        catch (Exception e) { return; }
+
         if(inputProcessor != null)
         {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT)
@@ -55,6 +66,5 @@ public class AndroidLauncher extends AndroidApplication implements SensorEventLi
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy)
     {
-
     }
 }

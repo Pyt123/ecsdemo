@@ -60,9 +60,9 @@ public class PlatformGenerator extends Entity
 
         Texture texture;
         boolean colliderActive;
-        InputProcessor inputProcessor = (InputProcessor)Gdx.input.getInputProcessor();
-        if(random.nextInt(2) == 0) { texture = DARK_TEXTURE; colliderActive = (inputProcessor.getLightState() == InputProcessor.LightState.DARK);}
-        else { texture = BRIGHT_TEXTURE; colliderActive = (inputProcessor.getLightState() == InputProcessor.LightState.BRIGHT);}
+        GameplayInputProcessor inputProcessor = (GameplayInputProcessor)Gdx.input.getInputProcessor();
+        if(random.nextInt(2) == 0) { texture = DARK_TEXTURE; colliderActive = (inputProcessor.getLightState() == GameplayInputProcessor.LightState.DARK);}
+        else { texture = BRIGHT_TEXTURE; colliderActive = (inputProcessor.getLightState() == GameplayInputProcessor.LightState.BRIGHT);}
 
         platforms[index].getTransform().setPosition(posX, getTransform().getPosition().y);
         platforms[index].changeTexture(texture, true);

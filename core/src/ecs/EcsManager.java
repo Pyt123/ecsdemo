@@ -2,6 +2,7 @@ package ecs;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -11,16 +12,13 @@ import java.util.List;
 
 public abstract class EcsManager
 {
-    protected ApplicationAdapter context;
     protected Camera camera;
     protected Viewport viewport;
 
     private List<Entity> entities;
 
-    public EcsManager(ApplicationAdapter context, Batch batch, Camera camera, Viewport viewport)
+    public EcsManager(Camera camera, Viewport viewport)
     {
-        this.context = context;
-        Render.setBatch(batch);
         this.camera = camera;
         this.viewport = viewport;
     }

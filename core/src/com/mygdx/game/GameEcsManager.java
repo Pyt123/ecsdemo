@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -10,11 +9,11 @@ import ecs.EcsManager;
 
 public class GameEcsManager extends EcsManager
 {
-    private InputProcessor inputProcessor;
+    private GameplayInputProcessor inputProcessor;
 
-    public GameEcsManager(ApplicationAdapter context, Batch batch, Camera camera, Viewport viewport)
+    public GameEcsManager(Camera camera, Viewport viewport)
     {
-        super(context, batch, camera, viewport);
+        super(camera, viewport);
     }
 
     @Override
@@ -25,7 +24,7 @@ public class GameEcsManager extends EcsManager
         FollowingCamera fCamera =  new FollowingCamera(camera, viewport, player, new Vector2(800, 0));
         Background background = new Background(-140, 0, fCamera);
 
-        inputProcessor = new InputProcessor(player, background);
+        inputProcessor = new GameplayInputProcessor(player, background);
         Gdx.input.setInputProcessor(inputProcessor);
 
         PlatformGenerator platformGenerator = new PlatformGenerator(200, 0, player, fCamera);
