@@ -26,11 +26,11 @@ public class Player extends Entity
                 new Animation2dComponent(new Texture("animation_player.png"), 8, 0.1f);
         attachComponent(animationC);
 
-        colliderComponent = new BoxCollider2dComponent(animationC.getFrameWidth(), animationC.getFrameHeight(), this);
-        attachComponent(colliderComponent);
-
         velocityC = new Velocity2dComponent(VELOCITY_X, 0);
         attachComponent(velocityC);
+
+        colliderComponent = new BoxCollider2dComponent(animationC.getFrameWidth(), animationC.getFrameHeight(), this);
+        attachComponent(colliderComponent);
 
         physicsComponent = new PhysicsComponent(velocityC, colliderComponent);
         attachComponent(physicsComponent);

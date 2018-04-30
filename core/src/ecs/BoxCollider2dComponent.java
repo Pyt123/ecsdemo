@@ -8,6 +8,7 @@ import java.util.List;
 public class BoxCollider2dComponent extends Component implements Updatable
 {
     private Rectangle bounds;
+    private boolean isActive = true;
     private List<BoxCollider2dComponent> colliders = new ArrayList<BoxCollider2dComponent>();
 
     public BoxCollider2dComponent(SpriteComponent spriteComponent, Entity parent)
@@ -43,12 +44,17 @@ public class BoxCollider2dComponent extends Component implements Updatable
     public Rectangle checkForCollisions()
     {
         Rectangle toCheck;
+        BoxCollider2dComponent toCheckCollider;
         for(int i = colliders.size()-1; i >= 0; i--)
         {
-            toCheck = colliders.get(i).getBounds();
-            if(bounds.overlaps(toCheck))
+            toCheckCollider = colliders.get(i);
+            if(toCheckCollider.isActive)
             {
-                return toCheck;
+                toCheck = toCheckCollider.getBounds();
+                if(bounds.overlaps(toCheck))
+                {
+                    return toCheck;
+                }
             }
         }
         return null;
@@ -67,5 +73,20 @@ public class BoxCollider2dComponent extends Component implements Updatable
     public Rectangle getBounds()
     {
         return bounds;
+    }
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void changeActive()
+    {
+        isActive = !isActive;
+    }
+
+    public void setActive(boolean active)
+    {
+        isActive = active;
     }
 }

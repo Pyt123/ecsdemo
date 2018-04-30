@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ecs.EcsManager;
@@ -15,6 +14,9 @@ import ecs.Time;
 
 public class Game extends ApplicationAdapter
 {
+    public static final float VIRTUAL_WIDTH = 1920;
+    public static final float VIRTUAL_HEIGHT = 1080;
+
     private Camera camera;
     private Viewport viewport;
     //////////////////////////////////////////////////
@@ -30,8 +32,8 @@ public class Game extends ApplicationAdapter
     {
         batch = new SpriteBatch();
 
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        camera = new OrthographicCamera();
+        viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 
         ecsManager = new GameEcsManager(this, batch, camera, viewport);
         ecsManager.start();

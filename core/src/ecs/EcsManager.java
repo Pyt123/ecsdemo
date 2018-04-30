@@ -35,6 +35,7 @@ public abstract class EcsManager
     {
         this.entities = new ArrayList<Entity>(15);;
         Time.resetFrameCounter();
+
         Scene.startScene(entities, this);
     }
 

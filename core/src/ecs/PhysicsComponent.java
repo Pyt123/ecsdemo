@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PhysicsComponent extends Component implements Updatable
 {
-    private final float L_TRESHHOLD = 1f;
+    private final float L_TRESHHOLD = 15f;
 
     private final float VEL_Y_TO_VEL_X_NEEDED = 5;
 
@@ -35,7 +35,7 @@ public class PhysicsComponent extends Component implements Updatable
     {
         Rectangle collidedWith = collider.checkForCollisions();
 
-        if(collidedWith != null && velocityC.getVelocity().y < L_TRESHHOLD)
+        if(collidedWith != null && velocityC.getVelocity().y <= 0.001)
         {
             Vector2 midPos = new Vector2(collider.getBounds().x + collider.getBounds().width/5,
                     collider.getBounds().y + collider.getBounds().height/5);
