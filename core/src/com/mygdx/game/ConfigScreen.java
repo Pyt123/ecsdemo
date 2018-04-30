@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 
@@ -36,8 +37,9 @@ public class ConfigScreen extends Game implements InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        screenY = (int)Config.VIRTUAL_HEIGHT - screenY;
-        if(buttonRectangle.contains(screenX, screenY))
+        Vector3 touchPoint = new Vector3();
+        Scene.getCamera().unproject(touchPoint.set(screenX, screenY, 0));
+        if(buttonRectangle.contains(touchPoint.x, touchPoint.y))
         {
             setScreen(new GameScreen());
         }

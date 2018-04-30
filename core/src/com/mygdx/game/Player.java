@@ -23,7 +23,7 @@ public class Player extends Entity
         super(posX, posY);
 
         Animation2dComponent animationC =
-                new Animation2dComponent(new Texture("animation_player.png"), 8, 0.1f);
+                new Animation2dComponent(new Texture("animation_player_terrorist.png"), 6, 0.1f);
         attachComponent(animationC);
 
         velocityC = new Velocity2dComponent(VELOCITY_X, 0);

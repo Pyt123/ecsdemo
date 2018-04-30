@@ -7,7 +7,7 @@ public class PhysicsComponent extends Component implements Updatable
 {
     private final float L_TRESHHOLD = 15f;
 
-    private final float VEL_Y_TO_VEL_X_NEEDED = 5;
+    private final float VEL_Y_TO_VEL_X_NEEDED = 10;
 
     private Velocity2dComponent velocityC;
     private float timeInAir = 0f;

@@ -12,7 +12,7 @@ public class Button extends ecs.Entity
 
     public Button(float xPos, float yPos, Texture texture)
     {
-        super(Config.VIRTUAL_WIDTH/2 - texture.getWidth()/2, Config.VIRTUAL_HEIGHT/2 - texture.getHeight()/2);
+        super(Config.VIRTUAL_WIDTH - texture.getWidth() - 10, 10/*Config.VIRTUAL_HEIGHT - texture.getHeight()*/);
         spriteComponent = new SpriteComponent(texture);
         attachComponent(spriteComponent);
     }
@@ -20,7 +20,7 @@ public class Button extends ecs.Entity
     public Rectangle getBounds()
     {
         Sprite sprite = spriteComponent.getSprite();
-        return new Rectangle(sprite.getX() + getTransform().getPosition().x, sprite.getY() + getTransform().getPosition().y,
+        return new Rectangle(getTransform().getPosition().x, getTransform().getPosition().y,
                 sprite.getWidth(), sprite.getHeight());
     }
 }
