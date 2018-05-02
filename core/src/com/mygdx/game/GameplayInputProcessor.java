@@ -13,7 +13,9 @@ class GameplayInputProcessor implements com.badlogic.gdx.InputProcessor
     private Background background;
 
     private final float LUX_CHANGE_VALUE = 100f;
-    private final float ACC_CHANGE_VALUE = 1f;
+    private final float ACC_TO_JUMP = 1.5f;
+    private final float ACC_TO_SHOT = -1.5f;
+    private float lastValue = 0;
 
     private LightState lightState = LightState.DARK;
 
@@ -41,10 +43,16 @@ class GameplayInputProcessor implements com.badlogic.gdx.InputProcessor
 
     public void handleAccelometer(float x, float y, float z)
     {
-        if(y > ACC_CHANGE_VALUE)
+        if(y > ACC_TO_JUMP)
         {
             player.jump();
         }
+        else if(y < ACC_TO_SHOT && lastValue >= ACC_TO_SHOT)
+        {
+            player.shot();
+        }
+
+        lastValue = y;
     }
 
     public void setLightState(float lux)

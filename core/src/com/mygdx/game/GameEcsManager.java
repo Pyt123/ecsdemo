@@ -1,11 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ecs.Audio2dComponent;
 import ecs.EcsManager;
+import ecs.Entity;
 
 public class GameEcsManager extends EcsManager
 {
@@ -14,6 +17,11 @@ public class GameEcsManager extends EcsManager
     public GameEcsManager(Camera camera, Viewport viewport)
     {
         super(camera, viewport);
+        Music music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
+        music.setVolume(0.5f);
+        music.setLooping(true);
+        music.play();
+        AudioResources.initAudioResources();
     }
 
     @Override

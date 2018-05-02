@@ -44,19 +44,20 @@ public class Player extends Entity
         }
     }
 
+    public void shot()
+    {
+        AudioResources.playShot();
+    }
+
     @Override
     public void update()
     {
         super.update();
         if(transform.getPosition().y + colliderComponent.getBounds().getHeight() < 0)
         {
+            AudioResources.playExplosion();
             Scene.getEcsManager().restart();
         }
-    }
-
-    public void die()
-    {
-
     }
 
     public BoxCollider2dComponent getColliderComponent()
